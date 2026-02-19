@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>TOP 10 MEMBER</title>
+  <style>
+    :root{--bg1:#2e6bff;--bg2:#2b56c7;--card:#fff;--muted:#6b7280;--shadow:0 10px 30px rgba(0,0,0,.12)}
+    *{box-sizing:border-box;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial}
+    body{margin:0;background:#eaf0ff}
+    .app{min-height:100vh;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#fff;padding-bottom:24px}
+    .topbar{display:flex;align-items:center;gap:12px;padding:18px 16px 10px}
+    .back{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.22);cursor:pointer;user-select:none}
+    .title{flex:1;text-align:center;font-weight:800;letter-spacing:.6px}
+    .spacer{width:34px;height:34px}
+    .toolbar{display:flex;gap:10px;align-items:center;margin:0 16px 10px}
+    select{width:100%;padding:10px 12px;border-radius:14px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.18);color:#fff;font-weight:800;outline:none}
+    option{color:#0b1220}
+    .tabs{margin:10px 16px 14px;background:rgba(0,0,0,.14);border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:6px;display:flex;gap:6px}
+    .tab{flex:1;padding:10px 12px;border-radius:999px;text-align:center;font-weight:700;cursor:pointer;background:transparent;color:rgba(255,255,255,.85);border:0}
+    .tab.active{background:rgba(255,255,255,.18);color:#fff}
+    .content{padding:0 16px}
+    .podium{margin-top:8px;display:grid;grid-template-columns:1fr 1.1fr 1fr;align-items:end;gap:12px}
+    .pod{text-align:center;position:relative}
+    .medal{width:68px;height:68px;border-radius:50%;margin:0 auto 6px;display:grid;place-items:center;border:4px solid rgba(255,255,255,.85);background:rgba(255,255,255,.18);box-shadow:var(--shadow)}
+    .medal.gold{border-color:#ffd56a;background:rgba(255,213,106,.25)}
+    .medal.silver{border-color:#e8eefc;background:rgba(232,238,252,.18)}
+    .medal.bronze{border-color:#ffb38a;background:rgba(255,179,138,.20)}
+    .rankBadge{position:absolute;top:-6px;right:22px;width:28px;height:28px;border-radius:50%;background:#ffcc3a;color:#13224a;display:grid;place-items:center;font-weight:900;font-size:14px;border:2px solid rgba(0,0,0,.08)}
+    .name{font-weight:800;margin-top:2px}
+    .trx{opacity:.9;font-weight:700;font-size:13px}
+    .pillar{margin:10px auto 0;width:100%;max-width:210px;border-radius:16px;background:linear-gradient(180deg,rgba(255,255,255,.20),rgba(0,0,0,.10));border:1px solid rgba(255,255,255,.16);height:130px;display:grid;place-items:center;font-weight:900}
+    .pillar.one{height:160px}
+    .pillar.three{height:120px}
+    .sheet{margin-top:14px;background:var(--card);color:#0b1220;border-radius:22px;box-shadow:var(--shadow);padding:14px 12px 6px}
+    .sheetHandle{width:54px;height:6px;border-radius:999px;background:#dbe4ff;margin:2px auto 12px}
+    .row{display:flex;align-items:center;gap:12px;padding:12px 10px;border-radius:16px;background:#f6f8ff;margin-bottom:10px;border:1px solid #e7ecff}
+    .rank{min-width:40px;height:34px;border-radius:12px;background:#4c7dff;color:#fff;font-weight:900;display:grid;place-items:center}
+    .avatar{width:38px;height:38px;border-radius:50%;background:#e7ecff;display:grid;place-items:center;color:#6276b9;font-weight:900}
+    .rowMain{flex:1;min-width:0}
+    .rowName{font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .rowTrx{font-weight:800;color:#2d4fb8;text-align:right;min-width:66px}
+    .muted{color:var(--muted);font-weight:600;font-size:13px;margin-top:2px}
+    .error,.loading{margin:12px 16px 0;padding:10px 12px;border-radius:14px;font-weight:800}
+    .loading{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22)}
+    .error{background:rgba(255,80,80,.18);border:1px solid rgba(255,80,80,.35)}
+    .infoCard{background:var(--card);color:#0b1220;border-radius:22px;box-shadow:var(--shadow);padding:16px 14px}
+    .infoCard h3{margin:0 0 8px;font-size:18px}
+    .infoCard h4{margin:14px 0 6px;font-size:16px}
+    .infoCard ul{margin:0;padding-left:18px}
+    .infoCard li{margin:6px 0;color:#1f2a44;font-weight:600}
+    .note{margin-top:10px;color:#334155;font-weight:600;font-size:13px;line-height:1.4}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="topbar">
+      <div class="back" onclick="history.back()">←</div>
+      <div class="title">TOP 10 MEMBER</div>
+      <div class="spacer"></div>
+    </div>
+
+    <div class="toolbar">
+      <select id="monthSelect">
+        <option value="2026-02">Februari 2026</option>
+        <option value="2026-01">Januari 2026</option>
+        <option value="2025-12">Desember 2025</option>
+      </select>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" id="tabLeaderboard">Februari 2026</button>
+      <button class="tab" id="tabInfo">Informasi</button>
+    </div>
+
+    <div id="status"></div>
+
+    <div class="content" id="viewLeaderboard">
+      <div class="podium">
+        <div class="pod">
+          <div class="rankBadge">2</div>
+          <div class="medal silver">👤</div>
+          <div class="name" id="name2">-</div>
+          <div class="trx" id="trx2">- Trx</div>
+          <div class="pillar">2<br/>Rank</div>
+        </div>
+        <div class="pod">
+          <div class="rankBadge">1</div>
+          <div class="medal gold">👤</div>
+          <div class="name" id="name1">-</div>
+          <div class="trx" id="trx1">- Trx</div>
+          <div class="pillar one">1<br/>Rank</div>
+        </div>
+        <div class="pod">
+          <div class="rankBadge">3</div>
+          <div class="medal bronze">👤</div>
+          <div class="name" id="name3">-</div>
+          <div class="trx" id="trx3">- Trx</div>
+          <div class="pillar three">3<br/>Rank</div>
+        </div>
+      </div>
+
+      <div class="sheet">
+        <div class="sheetHandle"></div>
+        <div id="list"></div>
+      </div>
+    </div>
+
+    <div class="content" id="viewInfo" style="display:none;">
+      <div class="infoCard">
+        <h3>Cara Ikut</h3>
+        <ul>
+          <li>Perbanyak transaksi setiap bulannya</li>
+          <li>Hanya transaksi <b>lunas/sukses</b> yang terhitung</li>
+          <li>Pembagian hadiah setiap awal bulan</li>
+        </ul>
+        <h4>Hadiah Event</h4>
+        <ul>
+          <li><b>Top 1</b>: 200+ Trx = Rp20.000</li>
+          <li><b>Top 2</b>: 100+ Trx = Rp10.000</li>
+          <li><b>Top 3</b>: 50+ Trx = Rp5.000</li>
+        </ul>
+        <div class="note">
+          Jika tidak mencapai target, hadiah bisa diganti hadiah kontribusi sesuai kebijakan.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const el = (id)=>document.getElementById(id);
+
+    function setActiveTab(which){
+      const isLb = which === "leaderboard";
+      el("tabLeaderboard").classList.toggle("active", isLb);
+      el("tabInfo").classList.toggle("active", !isLb);
+      el("viewLeaderboard").style.display = isLb ? "" : "none";
+      el("viewInfo").style.display = isLb ? "none" : "";
+    }
+    el("tabLeaderboard").onclick = ()=>setActiveTab("leaderboard");
+    el("tabInfo").onclick = ()=>setActiveTab("info");
+
+    function setStatus(type,msg){
+      const box = el("status");
+      if(!msg){ box.innerHTML=""; return; }
+      box.innerHTML = `<div class="${type}">${msg}</div>`;
+    }
+
+    function updateMonthLabel(month){
+      const map={"2026-02":"Februari 2026","2026-01":"Januari 2026","2025-12":"Desember 2025"};
+      el("tabLeaderboard").textContent = map[month] || month;
+    }
+
+    function esc(s){
+      return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;");
+    }
+    function maskName(name){
+      if(!name) return "-";
+      name=String(name);
+      if(name.length<=2) return name[0]+"*";
+      return name.slice(0,2)+"*".repeat(Math.min(10,name.length-2));
+    }
+
+    function render(items){
+      const a=items[0]||null, b=items[1]||null, c=items[2]||null;
+      el("name1").textContent = a?maskName(a.nama_user):"-";
+      el("trx1").textContent  = a?`${a.trx} Trx`:"- Trx";
+      el("name2").textContent = b?maskName(b.nama_user):"-";
+      el("trx2").textContent  = b?`${b.trx} Trx`:"- Trx";
+      el("name3").textContent = c?maskName(c.nama_user):"-";
+      el("trx3").textContent  = c?`${c.trx} Trx`:"- Trx";
+
+      const list = el("list");
+      list.innerHTML="";
+      const rest = items.slice(3,10);
+      if(!items.length){
+        list.innerHTML = `<div class="muted" style="padding:6px 8px 14px;">Belum ada data.</div>`;
+        return;
+      }
+      for(let i=0;i<rest.length;i++){
+        const rank=i+4;
+        const it=rest[i];
+        const row=document.createElement("div");
+        row.className="row";
+        row.innerHTML=`
+          <div class="rank">${rank}</div>
+          <div class="avatar">👤</div>
+          <div class="rowMain"><div class="rowName">${esc(maskName(it.nama_user))}</div></div>
+          <div class="rowTrx">${it.trx}<div class="muted" style="text-align:right;margin-top:-2px;">Trx</div></div>
+        `;
+        list.appendChild(row);
+      }
+    }
+
+    function load(month){
+      setStatus("loading","Memuat transaksi…");
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET","leaderboard.php?month="+encodeURIComponent(month),true);
+      xhr.onreadystatechange = function(){
+        if(xhr.readyState===4){
+          if(xhr.status===200){
+            try{
+              const j = JSON.parse(xhr.responseText);
+              if(!j.ok){
+                setStatus("error","Gagal: "+(j.error||"unknown"));
+                render([]);
+                return;
+              }
+              render(j.items||[]);
+              setStatus(null,null);
+            }catch(e){
+              setStatus("error","Respon bukan JSON yang valid");
+              render([]);
+            }
+          }else{
+            setStatus("error","HTTP "+xhr.status+" saat panggil leaderboard.php");
+            render([]);
+          }
+        }
+      };
+      xhr.send();
+    }
+
+    const monthSelect = el("monthSelect");
+    monthSelect.onchange = ()=>{
+      updateMonthLabel(monthSelect.value);
+      setActiveTab("leaderboard");
+      load(monthSelect.value);
+    };
+
+    updateMonthLabel(monthSelect.value);
+    load(monthSelect.value);
+  </script>
+</body>
+</html>
